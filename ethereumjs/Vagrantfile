@@ -5,8 +5,8 @@ wget https://nodejs.org/dist/v8.3.0/node-v8.3.0-linux-x64.tar.xz && \
 tar -xvf node-v8.3.0-linux-x64.tar.xz && \
 sudo mv node-v8.3.0-linux-x64/bin/* /usr/bin/ && \
 sudo mv node-v8.3.0-linux-x64/lib/* /usr/lib/ && \
-sudo apt-get install silversearcher-ag && \
-sudo ln -s /usr/bin/python3 /usr/bin/python && \
+sudo apt-get install -y silversearcher-ag && \
+sudo apt-get install -y python-minimal && \
 cp /vagrant/.tmux.conf /home/vagrant/.tmux.conf && \
 SCRIPT
 
