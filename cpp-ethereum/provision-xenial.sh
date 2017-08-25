@@ -1,4 +1,3 @@
-$installScript = <<SCRIPT
 sudo apt update && \
 sudo apt install -y  git g++ libleveldb-dev libmicrohttpd-dev ccache && \
 git clone https://github.com/jwasinger/cpp-ethereum && \
@@ -11,20 +10,7 @@ mkdir build && \
 cd build && \
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DVMTRACE=1 .. && \
 make && \
-chown -R vagrant:vagrant /home/vagrant/cpp-ethereum && \
 sudo add-apt-repository -y ppa:ethereum/ethereum && \
 sudo add-apt-repository -y ppa:ethereum/ethereum-dev && \
 sudo apt-get update && \
 sudo apt-get install -y solc && \
-SCRIPT
-
-Vagrant.configure("2") do |config|
-  config.vm.box = "ubuntu/trusty64"
-
-  config.vm.provider "virtualbox" do |v|
-    v.memory = 6096
-    v.cpus = 2
-  end
-
-  config.vm.provision "shell", "inline": $installScript
-end
