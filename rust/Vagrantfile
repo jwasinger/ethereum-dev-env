@@ -1,0 +1,31 @@
+$installScript = <<SCRIPT
+sudo apt update && \
+sudo apt install -y  git g++ make python-minimal build-essential cmake silversearcher-ag && \
+wget https://nodejs.org/dist/v8.3.0/node-v8.3.0-linux-x64.tar.xz && \
+tar -xvf node-v8.3.0-linux-x64.tar.xz && \
+sudo mv node-v8.3.0-linux-x64/bin/* /usr/bin/ && \
+sudo mv node-v8.3.0-linux-x64/lib/* /usr/lib/ && \
+rm -rf node-* && \
+wget https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init && \
+chmod +x rustup-init && \
+chown ubuntu:ubuntu rustup-init && \
+su ubuntu -c './rustup-init -y' && \
+wget https://s3.amazonaws.com/mozilla-games/emscripten/releases/emsdk-portable.tar.gz && \
+tar -xvf emsdk-portable.tar.gz && \
+cd emsdk-portable && \
+su ubuntu -c './emsdk install latest' && \
+su ubuntu -c './emsdk activate latest' && \
+su ubuntu -c 'cp /vagrant/.bash_profile /home/ubuntu'
+SCRIPT
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/xenial64"
+
+  config.vm.provider "virtualbox" do |v|
+    v.memory = 4096
+    v.cpus = 1
+  end
+
+  config.vm.network "forwarded_port", guest: 8080, host: 8080
+  config.vm.provision "shell", "inline": $installScript
+end
